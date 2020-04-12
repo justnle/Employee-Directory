@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import API from '../../utils/API';
 
 function Table() {
+  // don't need property with the current implementation
   const columns = [
     { heading: `Image`, property: `picture`, nested: `medium` },
     { heading: `Name`, property: `name`, nested: `first` },
@@ -9,15 +10,6 @@ function Table() {
     { heading: `Email`, property: `email` },
     { heading: `D.O.B.`, property: `dob`, nested: `date` },
   ];
-  //   const users = [
-  //     {
-  //       picture: `n/a`,
-  //       name: `Justin`,
-  //       phone: `111-111-1111`,
-  //       email: `test@test.com`,
-  //       dob: `01-01-1901`,
-  //     },
-  //   ];
 
   const [users, setUsers] = useState([]);
 
