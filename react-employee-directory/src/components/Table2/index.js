@@ -49,13 +49,15 @@ function Table2() {
         <tbody>
           {users.map((data, index) => (
             <tr key={`${index}-row`}>
-              {columns.map((col) => (
-                <td key={`${data.dob.date}-${col.property}`}>
-                  {typeof col.nested !== `undefined`
-                    ? data[col.property][col.nested]
-                    : data[col.property]}
-                </td>
-              ))}
+              <td>
+                <img alt='user' src={data.picture.medium}></img>
+              </td>
+              <td>
+                {data.name.first} {data.name.last}
+              </td>
+              <td>{data.phone}</td>
+              <td><a href={`mailto:${data.email}`}>{data.email}</a></td>
+              <td>{data.dob.date.slice(0, 10)}</td>
             </tr>
           ))}
         </tbody>
@@ -65,3 +67,12 @@ function Table2() {
 }
 
 export default Table2;
+
+// TODO: try to implement this later
+//   {columns.map((col) => (
+//     <td key={`${data.dob.date}-${col.property}`}>
+//       {typeof col.nested === `undefined`
+//         ? data[col.property]
+//         : data[col.property][col.nested]}
+//     </td>
+//   ))}
