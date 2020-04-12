@@ -1,40 +1,65 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import API from '../../utils/API';
 
 function Table() {
+  const columns = [
+    { heading: `Image`, property: `picture`, nested: `medium` },
+    { heading: `Name`, property: `name`, nested: `first` },
+    { heading: `Phone`, property: `phone` },
+    { heading: `Email`, property: `email` },
+    { heading: `D.O.B.`, property: `dob`, nested: `date` },
+  ];
+  //   const users = [
+  //     {
+  //       picture: `n/a`,
+  //       name: `Justin`,
+  //       phone: `111-111-1111`,
+  //       email: `test@test.com`,
+  //       dob: `01-01-1901`,
+  //     },
+  //   ];
+
+  const [users, setUsers] = useState([]);
+
+  const getUsers = () => {
+    API.getUsers()
+      .then((res) => {
+        setUsers(res.data.results);
+        console.log(res.data.results);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    getUsers();
+  }, []);
+
   return (
     <div className='Table'>
       <table className='table table-striped'>
         <thead>
           <tr>
-            <th scope='col'>Image</th>
-            <th scope='col'>Name</th>
-            <th scope='col'>Phone</th>
-            <th scope='col'>Email</th>
-            <th scope='col'>D.O.B.</th>
+            {columns.map((col) => (
+              <th scope='col' key={`header-${col.heading}`}>
+                {col.heading}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope='row'>1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>test</td>
-          </tr>
-          <tr>
-            <th scope='row'>2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-            <td>test</td>
-          </tr>
-          <tr>
-            <th scope='row'>3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-            <td>test</td>
-          </tr>
+          {users.map((data, index) => (
+            <tr key={`${index}-row`}>
+              <td>
+                <img alt='user' src={data.picture.medium}></img>
+              </td>
+              <td>
+                {data.name.first} {data.name.last}
+              </td>
+              <td>{data.phone}</td>
+              <td><a href={`mailto:${data.email}`}>{data.email}</a></td>
+              <td>{data.dob.date.slice(0, 10)}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
@@ -42,3 +67,12 @@ function Table() {
 }
 
 export default Table;
+
+// TODO: try to implement this later
+//   {columns.map((col) => (
+//     <td key={`${data.dob.date}-${col.property}`}>
+//       {typeof col.nested === `undefined`
+//         ? data[col.property]
+//         : data[col.property][col.nested]}
+//     </td>
+//   ))}
