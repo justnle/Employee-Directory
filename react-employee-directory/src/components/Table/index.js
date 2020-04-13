@@ -49,7 +49,7 @@ function Table() {
               </td>
               <td>{data.phone}</td>
               <td><a href={`mailto:${data.email}`}>{data.email}</a></td>
-              <td>{data.dob.date.slice(0, 10)}</td>
+              <td>{data.dob.date.replace(/^(\d{4})-(\d\d)-(\d\d).+$/, '$2/$3/$1')}</td>
             </tr>
           ))}
         </tbody>
